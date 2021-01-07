@@ -1,0 +1,27 @@
+{
+  "name": "Restaurant_Backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SulemanRasheed132446/Restaurant_Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SulemanRasheed132446/Restaurant_Backend/issues"
+  },
+  "homepage": "https://github.com/SulemanRasheed132446/Restaurant_Backend#readme",
+  "dependencies": {
+    "apollo-server": "^2.19.1",
+    "firebase": "^8.2.1",
+    "graphql": "^15.4.0",
+    "nodemon": "^2.0.7"
+  }
+}
