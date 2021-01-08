@@ -1,10 +1,9 @@
-const { firestore, bucket } = require("../utils/firebase");
-const {uploadImage} = require('../utils/Bucket')
-const {DishesCollection} = require('../utils/Collections')
-const Stream = require('stream')
 const Restaurant = require("./Restaurant")
+
 const Categories = require("./Categories")
 const Dishes = require("./Dishes")
+const Categories = require("./Categories");
+
 const resolvers = {
 	Mutation: {
       signUpRestaurant: Restaurant.signUpRestaurant,
@@ -12,7 +11,8 @@ const resolvers = {
       addDish: Dishes.addDish
    },
    Query: {
-      signIn: Restaurant.signIn
+      signIn: Restaurant.signIn,
+      getCategories: Categories.getCategories
    }
 };
 
