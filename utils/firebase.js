@@ -14,14 +14,16 @@ var serviceAccount = require('../secretKey.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
+  ,storageBucket: "gs://restaurant-dev-3c85f.appspot.com"
 });
 
 firebase.default.initializeApp(firebaseConfig)
 const auth = firebase.default.auth()
 const firestore = admin.firestore()
+const bucket =  admin.storage().bucket()
 
-firestore.collection('users').add({name: 'ali'})
 module.exports  = {
     auth,
-    firestore
+    firestore,
+    bucket
 }
