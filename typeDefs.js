@@ -17,6 +17,19 @@ const typeDefs = gql`
   type Dish {
     _id: ID!
     name: String!
+    price: Int!
+    imageUrl: String!
+    mutlipleSize: Boolean!
+    sizes: [Size!]
+  }
+
+  type Size {
+    size: String!
+    price: Int!
+  }
+  input SizeInput {
+    size: String!
+    price: Int!
   }
 
   input RestaurantInput {
@@ -35,14 +48,23 @@ const typeDefs = gql`
     email: String,
     password: String
   }
+  input AddDishInput {
+    categoryID: ID!
+    name: String!
+    price: Int!
+    multipleSize: Boolean!
+    sizes: [SizeInput!]!,
+    image: Upload!
+  }
 
   type JWT {
     token: String!
   }
-
+  
   type Mutation {
     signUpRestaurant(restaurantInput:RestaurantInput): JWT!
     addCategory(addCategoryInput: AddCategoryInput): Category!
+    addDish(addDishInput: AddDishInput): Dish!
   }
   type Query {
     signIn(signInInput: SignInInput): JWT!
