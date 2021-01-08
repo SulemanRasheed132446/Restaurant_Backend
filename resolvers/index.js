@@ -5,7 +5,7 @@ const resolvers = {
 		signUpRestaurant: Restaurant.signUpRestaurant
    },
    Query: {
-      getMenu: () => '123'
+      signIn: Restaurant.signIn
    }
 };
 

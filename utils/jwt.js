@@ -4,7 +4,7 @@ const secretKey = 'secretKey'
 
 
 module.exports = {
-    createJWT:async ({restaurantId, email}) => {
+    createJWT: ({restaurantId, email}) => {
         try {
             const token = jwt.sign({ 
                 restaurantId, 
