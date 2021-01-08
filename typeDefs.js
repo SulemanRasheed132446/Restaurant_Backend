@@ -15,7 +15,11 @@ const typeDefs = gql`
     password: String!,
     phoneNumber: String! 
   }
-
+  input SignInInput {
+    email: String,
+    password: String
+  }
+  
   type JWT {
     token: String!
   }
@@ -23,7 +27,7 @@ const typeDefs = gql`
     signUpRestaurant(restaurantInput:RestaurantInput): JWT!
   }
   type Query {
-    getMenu:String
+    signIn(signInInput: SignInInput): JWT!
   }
 `;
 
