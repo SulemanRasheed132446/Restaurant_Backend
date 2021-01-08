@@ -1,4 +1,4 @@
-const {CategoryCollection} = require("../utils/Collections")
+const {CategoryCollection, DishesCollection} = require("../utils/Collections")
 const { firestore } = require("../utils/firebase");
 const addDish = async  (_,{addDishInput}) => {
     const { 
@@ -43,6 +43,27 @@ const addDish = async  (_,{addDishInput}) => {
     
 }
 
+const getDishes = async ( _, {categoryId}) => {
+   try {
+      const snapshots = await firestore.collection(DishesCollection).
+            where("categoryId", '==',categoryId)
+            .get();
+      const dishes = []
+      snapshots.forEach(document => {
+         dishes.push({
+            _id: document.id,
+            ...document.data()
+         })
+      })
+      return dishes;
+   }
+   catch(err) {
+      console.log("GET DISHES ERROR");
+      console.log(err)
+   }
+}
+
 module.exports = {
-    addDish
+    addDish,
+    getDishes
 }

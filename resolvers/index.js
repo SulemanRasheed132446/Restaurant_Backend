@@ -1,6 +1,4 @@
 const Restaurant = require("./Restaurant")
-
-const Categories = require("./Categories")
 const Dishes = require("./Dishes")
 const Categories = require("./Categories");
 
@@ -12,7 +10,8 @@ const resolvers = {
    },
    Query: {
       signIn: Restaurant.signIn,
-      getCategories: Categories.getCategories
+      getCategories: Categories.getCategories,
+      getDishes: Dishes.getDishes
    }
 };
 
