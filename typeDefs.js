@@ -30,15 +30,22 @@ const typeDefs = gql`
     restaurantId:ID!,
     name: String!
   }
+
+  input SignInInput {
+    email: String,
+    password: String
+  }
+
   type JWT {
     token: String!
   }
+
   type Mutation {
     signUpRestaurant(restaurantInput:RestaurantInput): JWT!
-    addCategory(addCategoryInput: AddCategoryInput): Category
+    addCategory(addCategoryInput: AddCategoryInput): Category!
   }
   type Query {
-    getMenu:String
+    signIn(signInInput: SignInInput): JWT!
   }
 `;
 

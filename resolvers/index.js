@@ -8,7 +8,7 @@ const resolvers = {
       addCategory: Categories.addCategory
    },
    Query: {
-      
+      signIn: Restaurant.signIn
    }
 };
 
