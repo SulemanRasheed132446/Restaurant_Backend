@@ -46,6 +46,7 @@ const typeDefs = gql`
   }
   type Query {
     signIn(signInInput: SignInInput): JWT!
+    getCategories(restaurantId: ID!): [Category!]
   }
 `;
 
