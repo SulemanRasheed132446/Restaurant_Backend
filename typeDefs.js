@@ -20,7 +20,9 @@ const typeDefs = gql`
     price: Int!
     imageUrl: String!
     mutlipleSize: Boolean!
-    sizes: [Size!]
+    sizes: [Size!],
+    categoryId: ID!
+
   }
 
   type Size {
@@ -56,7 +58,14 @@ const typeDefs = gql`
     sizes: [SizeInput!]!,
     image: Upload!
   }
-
+  input UpdateDish {
+    dishID: ID!
+    name: String!
+    price: Int!
+    multipleSize: Boolean!
+    sizes: [SizeInput!]!,
+    image: Upload,
+  }
   type JWT {
     token: String!
   }
@@ -65,6 +74,7 @@ const typeDefs = gql`
     signUpRestaurant(restaurantInput:RestaurantInput): JWT!
     addCategory(addCategoryInput: AddCategoryInput): Category!
     addDish(addDishInput: AddDishInput): Dish!
+    updateDish(updateDish: UpdateDish): Dish!
   }
   type Query {
     signIn(signInInput: SignInInput): JWT!
