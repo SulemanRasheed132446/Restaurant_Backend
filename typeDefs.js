@@ -69,7 +69,7 @@ const typeDefs = gql`
     signUpRestaurant(restaurantInput:RestaurantInput): JWT!
     addCategory(addCategoryInput: AddCategoryInput): Category!
     addDish(addDishInput: AddDishInput): Dish!
-    deleteDish(dishID: ID!) : Id!
+    deleteDish(dishId: ID!, categoryId:ID!) : Id!
   }
   type Query {
     signIn(signInInput: SignInInput): JWT!

@@ -43,19 +43,15 @@ const addDish = async  (_,{addDishInput}) => {
     
 }
 
-const deleteDish = async (_ , {dishID}) => {
+const deleteDish = async (_ , {dishId, categoryId}) => {
+   console.log(dishId, categoryId);
    try {
-      const dish = await firestore.collection(DishesCollection).doc(dishID).get()
-      const {
-         categoryId,
-         name
-      } = dish.data()
      await firestore.collection(DishesCollection).
-               doc(dishID).
+               doc(dishId).
                delete()
-      bucket.file(`${categoryId}_${name}`).delete()
+      bucket.file(`${categoryId}_${dishId}`).delete()
       return {
-         id: dishID
+         id: dishId
       }
    }
    catch(err) {
