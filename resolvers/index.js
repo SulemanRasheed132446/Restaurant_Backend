@@ -1,6 +1,4 @@
 const Restaurant = require("./Restaurant")
-
-const Categories = require("./Categories")
 const Dishes = require("./Dishes")
 const Categories = require("./Categories");
 
@@ -8,7 +6,8 @@ const resolvers = {
 	Mutation: {
       signUpRestaurant: Restaurant.signUpRestaurant,
       addCategory: Categories.addCategory,
-      addDish: Dishes.addDish
+      addDish: Dishes.addDish,
+      updateDish: Dishes.update
    },
    Query: {
       signIn: Restaurant.signIn,
