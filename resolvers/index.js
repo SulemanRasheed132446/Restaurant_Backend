@@ -7,7 +7,7 @@ const resolvers = {
       signUpRestaurant: Restaurant.signUpRestaurant,
       addCategory: Categories.addCategory,
       addDish: Dishes.addDish,
-      updateDish: Dishes.update
+      deleteDish:  Dishes.deleteDish
    },
    Query: {
       signIn: Restaurant.signIn,

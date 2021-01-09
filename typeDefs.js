@@ -69,11 +69,16 @@ const typeDefs = gql`
   type JWT {
     token: String!
   }
+
+  type Id {
+    id: ID!
+  }
   
   type Mutation {
     signUpRestaurant(restaurantInput:RestaurantInput): JWT!
     addCategory(addCategoryInput: AddCategoryInput): Category!
     addDish(addDishInput: AddDishInput): Dish!
+    deleteDish(dishId: ID!, categoryId:ID!) : Id!
     updateDish(updateDish: UpdateDish): Dish!
   }
   type Query {

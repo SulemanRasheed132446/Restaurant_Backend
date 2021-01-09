@@ -77,7 +77,25 @@ const update = async ( _, {updateDish}) => {
    }
 }
 
+const deleteDish = async (_ , {dishId, categoryId}) => {
+   console.log(dishId, categoryId);
+   try {
+     await firestore.collection(DishesCollection).
+               doc(dishId).
+               delete()
+      bucket.file(`${categoryId}_${dishId}`).delete()
+      return {
+         id: dishId
+      }
+   }
+   catch(err) {
+      console.log('DELETE DISH ERROR');
+      console.log(err)
+      throw Error("Such dish does not exists")
+   }
+}
 module.exports = {
     addDish,
+    deleteDish,
     update
 }
