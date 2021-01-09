@@ -11,7 +11,8 @@ const resolvers = {
    },
    Query: {
       signIn: Restaurant.signIn,
-      getCategories: Categories.getCategories
+      getCategories: Categories.getCategories,
+      getDishes: Dishes.getDishes
    }
 };
 

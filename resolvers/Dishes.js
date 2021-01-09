@@ -77,6 +77,26 @@ const update = async ( _, {updateDish}) => {
    }
 }
 
+const getDishes = async ( _, {categoryId}) => {
+   try {
+      const snapshots = await firestore.collection(DishesCollection).
+            where("categoryId", '==',categoryId)
+            .get();
+      const dishes = []
+      snapshots.forEach(document => {
+         dishes.push({
+            _id: document.id,
+            ...document.data()
+         })
+      })
+      return dishes;
+   }
+   catch(err) {
+      console.log("GET DISHES ERROR");
+      console.log(err)
+   }
+}
+
 const deleteDish = async (_ , {dishId, categoryId}) => {
    console.log(dishId, categoryId);
    try {
@@ -97,5 +117,6 @@ const deleteDish = async (_ , {dishId, categoryId}) => {
 module.exports = {
     addDish,
     deleteDish,
-    update
+    update,
+    getDishes
 }
