@@ -6,7 +6,8 @@ const resolvers = {
 	Mutation: {
       signUpRestaurant: Restaurant.signUpRestaurant,
       addCategory: Categories.addCategory,
-      addDish: Dishes.addDish
+      addDish: Dishes.addDish,
+      deleteDish:  Dishes.deleteDish
    },
    Query: {
       signIn: Restaurant.signIn,
