@@ -1,5 +1,5 @@
-const {CategoryCollection} = require("../utils/Collections")
-const { firestore } = require("../utils/firebase");
+const {CategoryCollection, DishesCollection} = require("../utils/Collections")
+const { firestore, bucket } = require("../utils/firebase");
 const addDish = async  (_,{addDishInput}) => {
     const { 
        categoryID,
@@ -43,6 +43,28 @@ const addDish = async  (_,{addDishInput}) => {
     
 }
 
+const deleteDish = async (_ , {dishID}) => {
+   try {
+      const dish = await firestore.collection(DishesCollection).doc(dishID).get()
+      const {
+         categoryId,
+         name
+      } = dish.data()
+     await firestore.collection(DishesCollection).
+               doc(dishID).
+               delete()
+      bucket.file(`${categoryId}_${name}`).delete()
+      return {
+         id: dishID
+      }
+   }
+   catch(err) {
+      console.log('DELETE DISH ERROR');
+      console.log(err)
+      throw Error("Such dish does not exists")
+   }
+}
 module.exports = {
-    addDish
+    addDish,
+    deleteDish
 }
