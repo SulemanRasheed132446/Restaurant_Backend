@@ -17,6 +17,9 @@ const resolvers = {
       signIn: Restaurant.signIn,
       getCategories: Categories.getCategories,
       getDishes: Dishes.getDishes
+   },
+   Subscription:{
+      subscribeOrder: Order.subscribeOrder
    }
 };
 
