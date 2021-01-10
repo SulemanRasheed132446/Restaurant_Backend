@@ -1,4 +1,4 @@
-const {CategoryCollection} = require("../utils/Collections")
+const {CategoryCollection, DishesCollection} = require("../utils/Collections")
 const { firestore } = require("../utils/firebase");
 
 const addCategory = async (_,{addCategoryInput}) =>  {
@@ -54,7 +54,34 @@ const getCategories = async (_,{restaurantId}) => {
       console.log(err)
    }
 }
+
+const deleteCategory = async (_, {categoryId}) => {
+   try {
+      //Delete the category from the Category Collection
+      firestore.collection(CategoryCollection).doc(categoryId).delete()
+      //Get the dishes of that category
+      const dishesSnapshots = await firestore.
+                              collection(DishesCollection).
+                              where('categoryId' , '==', categoryId).
+                              get()
+      //Created a batch 
+      const batch =  firestore.batch();
+      
+      //Delete each dish having same category
+      dishesSnapshots.forEach(dish => batch.delete(dish.ref))
+      //Commit the batch
+      batch.commit()
+      return  {
+         id: categoryId
+      }
+   }
+   catch(err) {
+      console.log('DELETE DISH ERROR')
+      console.log(err)
+   }
+}
 module.exports = {
     addCategory,
-    getCategories
+    getCategories,
+    deleteCategory
 }

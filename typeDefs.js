@@ -80,6 +80,7 @@ const typeDefs = gql`
     addDish(addDishInput: AddDishInput): Dish!
     deleteDish(dishId: ID!, categoryId:ID!) : Id!
     updateDish(updateDish: UpdateDish): Dish!
+    deleteCategory(categoryId: ID!) : Id!
   }
   type Query {
     signIn(signInInput: SignInInput): JWT!
