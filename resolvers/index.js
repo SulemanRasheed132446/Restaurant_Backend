@@ -1,5 +1,6 @@
 const Restaurant = require("./Restaurant")
 const Dishes = require("./Dishes")
+const Order = require("./Orders")
 const Categories = require("./Categories");
 
 const resolvers = {
@@ -8,6 +9,7 @@ const resolvers = {
       addCategory: Categories.addCategory,
       addDish: Dishes.addDish,
       deleteDish:  Dishes.deleteDish,
+      createOrder: Order.createOrder,
       deleteCategory: Categories.deleteCategory
    },
    Query: {
