@@ -1,5 +1,35 @@
+const PubSub = require ('graphql-firestore-subscriptions');
 const { firestore } = require("../utils/firebase");
 const {OrderCollection} = require("../utils/Collections")
+const pubsub = new PubSub.default();
+const { withFilter } = require('apollo-server');
+
+const Topic  = {
+   ORDER_STATUS_UPDATED:'ORDER_UPDATED' ,
+}
+ 
+
+pubsub.registerHandler(Topic.ORDER_STATUS_UPDATED, broadcast =>
+// Note, that `onSnapshot` returns a unsubscribe function which
+// returns void.
+   firestore.collection(OrderCollection).onSnapshot(snapshot => {
+      snapshot
+         .docChanges()
+         .filter(change => change.type === 'modified')
+         .map(item => {
+            //Sending the data for subscribe order
+            broadcast({subscribeOrder:{ _id: item.doc.id, ...item.doc.data()}})});
+   })
+);
+
+const subscribeOrder = {
+   subscribe: withFilter(
+      () => pubsub.asyncIterator(Topic.ORDER_STATUS_UPDATED),
+      (payload, variables) => {
+         return variables.orderId === payload.subscribeOrder._id;         
+      },
+   )
+}
 
 const createOrder = async (_, {restaurantId, dishes, tableNo, total}) => {
     try {
@@ -45,6 +75,8 @@ const updateOrder = async (_ , {orderId, status}) => {
       await firestore.collection(OrderCollection).doc(orderId).update({
          status
       })
+      console.log("yes");
+      pubsub.publish(Topic.ORDER_STATUS_UPDATED)
       return {
          id: orderId,
       }
@@ -55,5 +87,6 @@ const updateOrder = async (_ , {orderId, status}) => {
 }
 module.exports = {
     createOrder,
-    updateOrder
+    updateOrder,
+    subscribeOrder
 }

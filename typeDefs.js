@@ -116,6 +116,9 @@ const typeDefs = gql`
     getCategories(restaurantId: ID!): [Category!]
     getDishes(categoryId: ID!): [Dish!]
   }
+  type Subscription {
+    subscribeOrder(orderId:ID!):Order!
+  }
 `;
 
 module.exports  = typeDefs
