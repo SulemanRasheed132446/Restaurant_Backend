@@ -69,9 +69,36 @@ const typeDefs = gql`
   type JWT {
     token: String!
   }
+  enum ORDER_STATUS {
+    PENDING
+    PREPARING
+    DELIVERED,
+  }
 
+  input OrderDishInput {
+    _id:ID!
+    name:String!
+    image: String!
+    price: Int!
+    size: String
+    quantity: Int!
+  }
+  type OrderDish {
+    _id:ID!
+    name:String!
+    image: String!
+    price: Int!
+    size: String
+    quantity: Int!
+  }
   type Id {
     id: ID!
+  }
+  type Order {
+    _id: ID!
+    status: ORDER_STATUS!
+    total: Int!
+    dishes: [OrderDish!]!
   }
   
   type Mutation {
@@ -80,6 +107,7 @@ const typeDefs = gql`
     addDish(addDishInput: AddDishInput): Dish!
     deleteDish(dishId: ID!, categoryId:ID!) : Id!
     updateDish(updateDish: UpdateDish): Dish!
+    createOrder(restaurantId:ID!, dishes:[OrderDishInput!]!, tableNo:Int!, total:Int!): Order!
   }
   type Query {
     signIn(signInInput: SignInInput): JWT!
