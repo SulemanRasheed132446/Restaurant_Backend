@@ -40,6 +40,20 @@ const createOrder = async (_, {restaurantId, dishes, tableNo, total}) => {
     }
  }
 
+const updateOrder = async (_ , {orderId, status}) => {
+   try {
+      await firestore.collection(OrderCollection).doc(orderId).update({
+         status
+      })
+      return {
+         id: orderId,
+      }
+   }
+   catch (err) {
+      console.log("Update Order Error");
+   }
+}
 module.exports = {
-    createOrder
+    createOrder,
+    updateOrder
 }

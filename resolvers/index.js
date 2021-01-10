@@ -10,7 +10,8 @@ const resolvers = {
       addDish: Dishes.addDish,
       deleteDish:  Dishes.deleteDish,
       createOrder: Order.createOrder,
-      deleteCategory: Categories.deleteCategory
+      deleteCategory: Categories.deleteCategory,
+      updateOrder: Order.updateOrder
    },
    Query: {
       signIn: Restaurant.signIn,

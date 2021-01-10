@@ -109,6 +109,7 @@ const typeDefs = gql`
     updateDish(updateDish: UpdateDish): Dish!
     createOrder(restaurantId:ID!, dishes:[OrderDishInput!]!, tableNo:Int!, total:Int!): Order!
     deleteCategory(categoryId: ID!) : Id!
+    updateOrder(orderId: ID!, status: ORDER_STATUS!): Id!
   }
   type Query {
     signIn(signInInput: SignInInput): JWT!
