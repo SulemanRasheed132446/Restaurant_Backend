@@ -19,7 +19,8 @@ const resolvers = {
       getDishes: Dishes.getDishes
    },
    Subscription:{
-      subscribeOrder: Order.subscribeOrder
+      subscribeOrderByRestaurant: Order.subscribeOrderByRestaurant,
+      subscribeOrderByCustomer: Order.subscribeOrderByCustomer
    }
 };
 
