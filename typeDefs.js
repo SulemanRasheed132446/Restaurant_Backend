@@ -117,7 +117,8 @@ const typeDefs = gql`
     getDishes(categoryId: ID!): [Dish!]
   }
   type Subscription {
-    subscribeOrder(orderId:ID!):Order!
+    subscribeOrderByRestaurant(restaurantId: ID!):Order!
+    subscribeOrderByCustomer(orderId: ID!):Order!
   }
 `;
 

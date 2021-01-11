@@ -4,33 +4,70 @@ const {OrderCollection} = require("../utils/Collections")
 const pubsub = new PubSub.default();
 const { withFilter } = require('apollo-server');
 
-const Topic  = {
-   ORDER_STATUS_UPDATED:'ORDER_UPDATED' ,
+const ORDER  = {
+   STATUS_UPDATED:'ORDER_UPDATED' ,
+   ORDER_CREATED:'ORDER_CREATED'
 }
  
-
-pubsub.registerHandler(Topic.ORDER_STATUS_UPDATED, broadcast =>
-// Note, that `onSnapshot` returns a unsubscribe function which
-// returns void.
-   firestore.collection(OrderCollection).onSnapshot(snapshot => {
+pubsub.registerHandler(ORDER.STATUS_UPDATED, (broadcast, options) => {
+   let isInitialSnapshot = true;
+   const unsub = firestore.collection(OrderCollection).onSnapshot(snapshot => {
+      if(isInitialSnapshot) {
+         isInitialSnapshot = false;
+         return ;
+      }
       snapshot
          .docChanges()
+         //If no order is removed,
          .filter(change => change.type === 'modified')
          .map(item => {
             //Sending the data for subscribe order
-            broadcast({subscribeOrder:{ _id: item.doc.id, ...item.doc.data()}})});
+            broadcast({ _id: item.doc.id, ...item.doc.data()})});
    })
-);
+   return unsub
+})
 
-const subscribeOrder = {
+pubsub.registerHandler(ORDER.ORDER_CREATED, (broadcast, options) => {
+   let isInitialSnapshot = true;
+   const unsub = firestore.collection(OrderCollection).onSnapshot(snapshot => {
+      if(isInitialSnapshot) {
+         isInitialSnapshot = false;
+         return ;
+      }
+      snapshot
+         .docChanges()
+         //If no order is removed,
+         .filter(change => change.type === 'added')
+         .map(item => {
+            //Sending the data for subscribe order
+            broadcast({ _id: item.doc.id, ...item.doc.data()})});
+   })
+   return unsub
+});
+
+const subscribeOrderByRestaurant = {
+   resolve: (payload) => {
+      return payload;
+   },
    subscribe: withFilter(
-      () => pubsub.asyncIterator(Topic.ORDER_STATUS_UPDATED),
+      () => pubsub.asyncIterator([ORDER.ORDER_CREATED]),
       (payload, variables) => {
-         return variables.orderId === payload.subscribeOrder._id;         
+         return variables.restaurantId === payload.restaurantId;         
       },
    )
 }
 
+const subscribeOrderByCustomer = {
+   resolve: (payload) => {
+      return payload;
+   },
+   subscribe: withFilter(
+      () => pubsub.asyncIterator([ORDER.STATUS_UPDATED]),
+      (payload, variables) => {
+         return variables.orderId === payload._id;         
+      },
+   )
+}
 const createOrder = async (_, {restaurantId, dishes, tableNo, total}) => {
     try {
        const orderSnapshot = await firestore.
@@ -54,6 +91,7 @@ const createOrder = async (_, {restaurantId, dishes, tableNo, total}) => {
              total,
              restaurantId
           })
+          pubsub.publish(ORDER.STATUS_UPDATED)
           return  {
              _id: order.id,
              dishes,
@@ -75,18 +113,19 @@ const updateOrder = async (_ , {orderId, status}) => {
       await firestore.collection(OrderCollection).doc(orderId).update({
          status
       })
-      console.log("yes");
-      pubsub.publish(Topic.ORDER_STATUS_UPDATED)
+      pubsub.publish(ORDER.ORDER_CREATED)
       return {
          id: orderId,
       }
    }
    catch (err) {
       console.log("Update Order Error");
+      console.log(err)
    }
 }
 module.exports = {
     createOrder,
     updateOrder,
-    subscribeOrder
+    subscribeOrderByRestaurant,
+    subscribeOrderByCustomer
 }
